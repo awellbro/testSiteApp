@@ -1,6 +1,6 @@
 var createError = require('http-errors');
 var express = require('express');
-var path = require('path');
+var path = require('node:path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
@@ -23,6 +23,16 @@ async function main(){
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+// testing views ---------------------
+
+
+app.get("/", (req, res)=>{
+  // res.render seeks out the folder indicated in app.set('views'....)
+  // the below code will send the render call to the index file inside the views folder
+  res.render("index", {message: "EJS Blows Cock", title: "Dick Blowers Anonymous"});
+});
+//----------------------------
 
 app.use(logger('dev'));
 app.use(express.json());
