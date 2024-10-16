@@ -1,8 +1,35 @@
 const Book = require("../models/book");
+const Author = require('../models/author');
+const Genre = require('../models/genre');
+const BookInstance = require('../models/bookinstance');
+
 const asyncHandler = require("express-async-handler");
 
 exports.index = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: Site Home Page");
+  //get details of books, book instance, authors and genre counts
+  const [
+    numBooks,
+    numBookInstances,
+    numAvailableBookInstances,
+    numAuthors,
+    numGenres,
+  // Promise.all is used to all run queries (countDocuments.exec) in parallel
+  //once all promises are fulfilled, the results populate the array of values above ^
+  ] = await Promise.all([
+    Book.countDocuments({}).exec(),
+    BookInstance.countDocuments({}).exec(),
+    BookInstance.countDocuments({status: "Available"}).exec(),
+    Author.countDocuments({}).exec(),
+    Genre.countDocuments({}).exec(),
+  ]);
+  res.render("index", {
+    title: "Local Library Heime",
+    book_count: numBooks,
+    book_instance_count: numBookInstances,
+    book_instance_count_available: numAvailableBookInstances,
+    author_count: numAuthors,
+    genre_count: numGenres,
+  });
 });
 
 // Display list of all books.
