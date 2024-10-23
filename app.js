@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
 
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var catalogRouter = require("./routes/catalog");
@@ -12,8 +13,9 @@ var testRouter = require('./routes/test');
 
 var app = express();
 
+
 mongoose.set("strictQuery", false);
-var mongoDb = "mongodb+srv://awellbro:awellbro@mdnlibrarycluster.avbgn.mongodb.net/local_library_tut/libraryDataCollection?retryWrites=true&w=majority&appName=mdnLibraryCluster";
+var mongoDb = "mongodb+srv://awellbro:awellbro@mdnlibrarycluster.avbgn.mongodb.net/local_library_tut?retryWrites=true&w=majority&appName=mdnLibraryCluster";
 
 main().catch((err) => console.log(err));
 async function main(){
@@ -23,16 +25,6 @@ async function main(){
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-
-// testing views ---------------------
-
-
-app.get("/", (req, res)=>{
-  // res.render seeks out the folder indicated in app.set('views'....)
-  // the below code will send the render call to the index file inside the views folder
-  res.render("index", {message: "EJS Blows Cock", title: "Dick Blowers Anonymous"});
-});
-//----------------------------
 
 app.use(logger('dev'));
 app.use(express.json());

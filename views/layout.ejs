@@ -14,7 +14,6 @@
             <div class = "row">
                 <div class = "col-sm-2">
                     <ul class = "sidebar-nav">
-                        <% include('sidebar') %>
                         <li><a href="/catalog">Home</a></li>
                         <li><a href="/catalog/books">All Books</a></li>
                         <li><a href="/catalog/authors">All Authors</a></li>
@@ -27,8 +26,9 @@
                         <li><a href="/catalog/bookinstance/create">Create New Book Instance (copy)</a></li>
                     </ul>
                 </div>
+                <!-- use add content: <desired view> to res.render object to use templating here-->
                 <div class="col-sm-10">
-                    <%- body %>
+                    <%- include(content) %>
                 </div>
             </div>
         </div>
