@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-
-
 const Schema = mongoose.Schema;
 
 const AuthorSchema = new Schema({
@@ -21,6 +19,22 @@ AuthorSchema.virtual("name").get(function(){
 
 AuthorSchema.virtual("url").get(function(){
     return `/catalog/author/${this._id}`
+});
+
+AuthorSchema.virtual('age').get(function(){
+    if (!this.date_of_birth) return null;
+
+    const birthDate = new Date(this.date_of_birth);
+    const deathDate = this.date_of_death ? new Date(this.date_of_death) : new Date();
+    let age = deathDate.getFullYear() - birthDate.getFullYear();
+
+    if (
+        deathDate.getMonth() < birthDate.getMonth() ||
+        (deathDate.getMonth() === birthDate.getMonth() && deathDate.getDate() < birthDate.getDate())
+    ) {
+        age--;
+    }
+    return age;
 });
 
 module.exports = mongoose.model('Author', AuthorSchema);

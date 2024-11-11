@@ -1,0 +1,26 @@
+<h1><%= title %></h1>
+
+<% if(bookinstance_list.length) { %>
+
+<ul>
+    <% bookinstance_list.forEach(function(val) { %>
+    <li>
+        <!--<a href = "path link">Text to Display</a>-->
+        <!-- val.url - path to book info via _id | book.title from bookinstance model to display title-->
+        <a href = '<%= val.url %>'><%= val.book.title %></a>: <%= val.imprint %> -&nbsp;
+        <% if (val.status === 'Available') { %>
+            <span class = 'text-success'><%= val.status %></span>
+        <% } else if (val.status === 'Maintenance') { %>
+            <span class = 'text-danger'><%= val.status %></span>
+        <% } else {%>
+            <span class = 'text-warning'><%= val.status %></span>
+        <% } %>
+        <% if (val.status !== 'Available') { %>
+            <span>(Due: <%= val.due_back_formatted %>)</span>
+        <% } %>
+    </li>
+    <% }) %>
+</ul>
+<% } else { %>
+        <p>No Copies Available</p>
+<% } %>

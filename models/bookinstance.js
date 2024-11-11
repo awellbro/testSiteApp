@@ -1,4 +1,9 @@
+// this syntax imports the entire mongoose package
+//mongoose.model
 const mongoose = require("mongoose");
+// this is {destructuirng syntax} - import only specified parts of a package
+// DateTime.now() - oppossed to luxon.DateTime.now(), if the whole package was imported
+const {DateTime} = require('luxon');
 
 const Schema = mongoose.Schema;
 
@@ -19,6 +24,10 @@ const BookInstanceSchema = new Schema({
 BookInstanceSchema.virtual("url").get(function () {
   // We don't use an arrow function as we'll need the this object
   return `/catalog/bookinstance/${this._id}`;
+});
+
+BookInstanceSchema.virtual('due_back_formatted').get(function(){
+  return DateTime.fromJSDate(this.due_back).toLocaleString(DateTime.DATE_MED);
 });
 
 // Export model
