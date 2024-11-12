@@ -4,9 +4,13 @@
   <ul>
     <% author_list.forEach(author => { %>
       <li>
-        <a href="<%= author.url %>"><%= author.name %></a> | <%= author.age %>
+        <a href="<%= author.url %>"><%= author.name %></a> | 
+        <% if(!author.date_of_birth_formatted && !author.date_of_death_formatted){%>
+            N/A
+        <% } else { %>
+       <%= author.date_of_birth_formatted %> - <%= author.date_of_death_formatted %>
       </li>
-    <% }); %>
+    <% }}); %>
   </ul>
 <% } else { %>
   <p>There are no authors.</p>
