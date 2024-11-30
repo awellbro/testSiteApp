@@ -5,6 +5,8 @@ const BookInstance = require('../models/bookinstance');
 
 const asyncHandler = require("express-async-handler");
 
+const {body, validationResult} = require('express-validator');
+
 exports.index = asyncHandler(async (req, res, next) => {
   //get details of books, book instance, authors and genre counts
   const [
