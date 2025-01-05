@@ -3,7 +3,7 @@
 <% if (genre_list.length){ %>
     <ul>
         <% genre_list.forEach(genre => { %>
-        <li>
+        <li style="list-style-type:none">
             <a href="<%= genre.url %>"><%= genre.name%></a>
         </li>
     <% }) %>

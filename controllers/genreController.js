@@ -37,9 +37,9 @@ exports.genre_detail = asyncHandler(async (req, res, next) => {
 });
 
 // Display Genre create form on GET.
-exports.genre_create_get = asyncHandler(async (req, res, next) => {
-  res.render('layout', {content: 'genre_form', title: 'Create Genre'});
-});
+exports.genre_create_get = (req, res, next) => {
+  res.render('layout', {content: 'genre_form', title: 'Create Genre', errors: [],});
+};
 
 // Handle Genre create on POST.
 exports.genre_create_post = [
@@ -71,8 +71,8 @@ exports.genre_create_post = [
       // check if Genre with same name already exists
       const genreExists = await Genre.findOne({name: req.body.name})
       // collation ensures case sensitivity
-      //locale - check string against english comparison
-      //strength - case and diacritic sensitive (cafe = cafe and cafe'(with accent over e))
+      //    locale - check string against english comparison
+      //    strength - case and diacritic sensitive (cafe = cafe and cafe'(with accent over e))
       .collation({locale: 'en', strength: 2})
       .exec();
 

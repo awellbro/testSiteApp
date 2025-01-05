@@ -1,0 +1,54 @@
+<h1><%= title %></h1>
+
+<form method="POST">
+    <div class="form-group">
+        <label for="first_name">First Name: </label>
+        <input
+        id="first_name"
+        class="form-control"
+        type="text"
+        placeholder="Enter First Name"
+        name="first_name"
+        required
+        value="<%= typeof author === 'undefined' ? '' : author.first_name %>">
+
+        <label for="family_name">Last Name: </label>
+        <input
+        id="family_name"
+        class="form-control"
+        type="text"
+        placeholder="Enter Last Name"
+        name="family_name"
+        required
+        value="<%= typeof author === 'undefined' ? '' : author.family_name %>">
+    </div>
+
+    <div class="form-group">
+        <label for="date_of_birth">Date of Birth: </label>
+        <input 
+        id="date_of_birth"
+        class="form-control"
+        type="date"
+        name="date_of_birth"
+        value="<%= typeof author === 'undefined' ? '' : author.date_of_birth %>">
+
+        <label for="date_of_death">Date of Death: </label>
+        <input
+        id="date_of_death"
+        class="form-control"
+        type="date"
+        name="date_of_death"
+        value="<%= typeof author === 'undefined' ? '' : author.date_of_death %>">
+    </div>
+
+    <button class="btn btn-primary" type="submit">Submit</button>
+
+</form>
+
+<% if (errors) { %>
+    <ul>
+        <% errors.forEach(function(error) { %>
+            <li><%= error.msg %></li>
+        <% }); %>
+    </ul>
+<% } %>

@@ -37,14 +37,67 @@ exports.author_detail = asyncHandler(async (req, res, next) => {
 });
 
 //display author create form on GET
-exports.author_create_get = asyncHandler(async (req, res, next) => {
-    res.send("Not Implemented: Author create GET");
-});
+exports.author_create_get = (req, res, next) => {
+    res.render('layout', {content: 'author_form', title: 'Create Author', errors: []})
+};
 
 //handle author create on post
-exports.author_create_post = asyncHandler(async (req, res, next) => {
-    res.send("NOT Implemented: Author create POST");
-});
+exports.author_create_post = [
+    //validate and sanitize all fields
+    body('first_name')
+    .trim()
+    .isLength({min: 1})
+    .escape()
+    .withMessage('Enter a first name')
+    .isAlphanumeric()
+    .withMessage('First Name contains non-alphanumeric characters'),
+    body('family_name')
+    .trim()
+    .isLength({min: 1})
+    .escape()
+    .withMessage('Enter last name')
+    .isAlphanumeric()
+    .withMessage('Last Name contains non-alphanumeric characters'),
+    body('date_of_birth', 'Invalid date of birth')
+    // optional ensures that null or empty values will not send an error during validation
+    .optional({nullable: true, checkFalsy: true})
+    .isISO8601()
+    .toDate(),
+    body('date_of_death', 'Invalid date of death')
+    .optional({nullable: true, checkFalsy: true})
+    .isISO8601()
+    .toDate(),
+
+    //process request after vali/tization
+    asyncHandler(async (req, res, next) => {
+        //extract validation errors
+        //express-validator attaches the results of validation checks to the req object
+        // body(ex) === req.body.ex - req.errors is passed in the below snippet, not the whole req object
+        const errors = validationResult(req);
+
+        // create Author object with escaped and trimmed data
+        const author = new Author({
+            first_name: req.body.first_name,
+            family_name: req.body.family_name,
+            date_of_birth: req.body.date_of_birth,
+            date_of_death: req.body.date_of_death,
+        });
+    
+        if(!errors.isEmpty()){
+            res.render('layout', {
+                content: 'author_form',
+                title: 'Create Author',
+                author: author,
+                errors: errors.array(),
+            });
+            return;
+        } else {
+            // no errors
+            await author.save();
+            res.redirect(author.url);
+        }
+    }),
+];
 
 //display author delete form on GET
 exports.author_delete_get = asyncHandler(async (req, res, next) => {

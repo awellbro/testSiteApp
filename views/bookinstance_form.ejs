@@ -1,0 +1,65 @@
+<h1><%= title %></h1>
+
+<form method="POST">
+    <div class="form-group">
+        <label for="book">Book: </label>
+        <select id="book" class="form-control" name="book" required>
+            <option value="">--Choose a Book--</option>
+            <% book_list.forEach(book => { %>
+                <% if(selected_book === book._id.toString()) { %>
+                <option value="<%= book_.id %>" selected><%= book.title %></option>
+            <% } else { %>
+                <option value="<%= book._id %>"><%= book.title %></option>    
+            <% } %>
+        <% }) %>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="imprint">Imprint: </label>
+        <input 
+            id="imprint"
+            class="form-control"
+            type="text"
+            placeholder="Publisher and Date (YYYY)"
+            name="imprint"
+            required
+            value="<%= bookinstance ? bookinstance.imprint : '' %>"
+        />
+    </div>
+
+    <div class="form-group">
+        <label for="due_back">Book Available:</label>
+        <input 
+            id="due_back"
+            class="form-control"
+            type="date"
+            name="due_back"
+            value="<% bookinstance ? bookinstance.due_back_yyyy_mm_dd : '' %>"
+        />
+    </div>
+
+    <div class="form-group">
+        <label for="status">Status: </label>
+        <select id="status" class="form-control" name="status" required>
+            <option value="">--Choose a Status--</option>
+            <% ['Maintenance', 'Available', 'Loaned', 'Reserved'].forEach(val => { %>
+                <% if (bookinstance && bookinstance.status === val) { %>
+                    <option value="<%= val %>" selected><%= val %></option>
+                <% } else { %>
+                    <option value="<%= val %>"><%= val %></option>
+                <% } %>
+            <% }) %>
+        </select>
+    </div>
+
+    <button class="btn btn-primary" type="submit">Submit</button>
+</form>
+
+<% if (errors && errors.length) { %>
+    <ul>
+        <% errors.forEach(error => { %>
+            <li><%= error.msg %></li>
+        <% }) %>
+    </ul>
+<% } %>

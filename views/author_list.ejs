@@ -3,7 +3,7 @@
 <% if (author_list.length) { %>
   <ul>
     <% author_list.forEach(author => { %>
-      <li>
+      <li style="list-style-type:none">
         <a href="<%= author.url %>"><%= author.name %></a> | 
         <% if(!author.date_of_birth_formatted && !author.date_of_death_formatted){%>
             N/A

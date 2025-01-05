@@ -2,7 +2,7 @@
 <% if (book_list.length) { %>
     <ul>
         <% book_list.forEach(function(book) { %>
-            <li>
+            <li style="list-style-type:none">
                 <a href="<%= book.url %>"><%= book.title %></a> (<%= book.author.name %>)
             </li>
             <% }) %>
