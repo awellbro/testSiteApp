@@ -21,7 +21,7 @@ router.post("/book/create", book_controller.book_create_post);
 router.get("/book/:id/delete", book_controller.book_delete_get);
 
 //POST request for deleting a book
-router.get("/book/:id/delete", book_controller.book_delete_post);
+router.post("/book/:id/delete", book_controller.book_delete_post);
 
 // GET request to update Book.
 router.get("/book/:id/update", book_controller.book_update_get);
@@ -33,7 +33,7 @@ router.post("/book/:id/update", book_controller.book_update_post);
 router.get("/book/:id", book_controller.book_detail);
 
 //GET for a list of all books
-router.get("/books/", book_controller.book_list);
+router.get("/books", book_controller.book_list);
 
 //#################################### Author Routes
 
