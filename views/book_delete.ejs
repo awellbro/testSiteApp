@@ -13,12 +13,12 @@
     <% }) %>
 
     <% if(book_instances.length){ %>
-        <p>Delete the following book IBSN's before deleting this book</p>
+        <p>Delete the following book copy ID's before deleting this book</p>
         <div style="margin-left:20px;margin-top:20px;">
             <dl>
                 <% book_instances.forEach(instance => { %>
                     <dt>
-                        <a href="<%= instance.url %>"><%= instance.isbn %></a>
+                        <a href="<%= instance.url %>"><%= instance._id %></a>
                     </dt>
 
                 <% }) %>

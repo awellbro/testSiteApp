@@ -157,7 +157,7 @@ exports.book_delete_get = asyncHandler(async (req, res, next) => {
   // get books and book instance details
   const [book, allBookInstances] = await Promise.all([
     Book.findById(req.params.id).populate('author').populate('genre').exec(),
-    BookInstance.find({book: req.params.id}).populate('book').exec(),
+    BookInstance.find({book: req.params.id}, "isbn").exec(),
   ]);
 
   if (book === null){
@@ -187,9 +187,10 @@ exports.book_delete_post = asyncHandler(async (req, res, next) => {
       book: book,
       book_instances: allBookInstances,
     });
+    console.log(allBookInstances)
     return;
   } else {
-    console.log(book)
+    
     // book has no instances
     await Book.findByIdAndDelete(req.body.bookid);
     res.redirect('/catalog/books');
