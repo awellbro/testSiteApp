@@ -128,6 +128,7 @@ exports.author_delete_post = asyncHandler(async (req, res, next) => {
     ]);
 
     if(allBooksByAuthor.length > 0){
+        
         // author has books
         res.render('layout', {
             title: 'Delete Author',
