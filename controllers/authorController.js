@@ -145,10 +145,70 @@ exports.author_delete_post = asyncHandler(async (req, res, next) => {
 
 //display Author update form on GET
 exports.author_update_get = asyncHandler(async (req, res, next) => {
-    res.send("Not Implemented: Author update GET");
+    const author = await (
+        Author.findById(req.params.id).exec()
+    );
+
+    if (author === null){
+        const err = new Error('Author not found');
+        err.status = 404;
+        return next(err);
+    }
+
+    res.render('layout', {
+        content: 'author_form',
+        title: "Update Author",
+        author: author,
+        errors: [],
+    })
 });
 
 //Handle author update on POST
-exports.author_update_post = asyncHandler(async (req, res, next) => {
-    res.send("Not Implemented: Author update POST");
-});
+exports.author_update_post = [
+    //valitize fields
+    body('first_name', 'First Name Required')
+        .trim()
+        .isLength({min: 1})
+        .escape(),
+    body('family_name', 'Family Name Required')
+        .trim()
+        .isLength({min: 1})
+        .escape(),
+    body('date_of_birth', 'dob required')
+        .trim()
+        .escape(),
+    body('date_of_death', 'dod required')
+        .trim()
+        .escape(),
+    
+    //process request after valitization
+    asyncHandler(async(req, res, next)=> {
+        const errors = validationResult(req)
+
+    // create a new author with new data
+        const author = new Author({
+            first_name: req.body.first_name,
+            family_name: req.body.family_name,
+            date_of_birth: req.body.date_of_birth,
+            date_of_death: req.body.date_of_death,
+            _id: req.params.id,
+        });
+
+    if(!errors.isEmpty()){
+        const author = await (
+            Author.findById(req.params.id).exec()
+        );
+    res.render('layout', {
+        content: 'author_form',
+        title: 'Update Author',
+        author: author,
+        errors: errors.array(),
+        });
+        return;
+    } else {
+        // author data is valid. update record
+        const updatedAuthor = await Author.findByIdAndUpdate(req.params.id, author, {});
+        res.redirect(updatedAuthor.url);
+        };
+    }),
+]
